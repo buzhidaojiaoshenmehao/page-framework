@@ -1,9 +1,9 @@
 plugins { id 'com.android.application' }
 android {
-    namespace 'com.usernav.pagedemo'
+    namespace 'com.zleilabs.pagedemo'
     compileSdk 34
     defaultConfig {
-        applicationId 'com.usernav.pagedemo'
+        applicationId 'com.zleilabs.pagedemo'
         minSdk 21
         targetSdk 34
         versionCode 1

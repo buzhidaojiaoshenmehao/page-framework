@@ -3,7 +3,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.usernav.page'
+group = 'com.zleilabs'
 version = '0.3.0'
 
 android {

@@ -1,4 +1,4 @@
-package com.usernav.pagedemo;
+package com.zleilabs.pagedemo;
 
 import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;

@@ -1,4 +1,4 @@
-# Page Framework Demo
+# ZLei Labs · Page Framework Demo
 
 Page Framework 是一套面向 Android 原生 View 的页面栈。一个 Activity 提供页面容器，`ViewPage` 创建页面 View，`PageNavigator` 负责入栈、出栈、系统返回、生命周期和转场。业务页面通过 `PageBundle` 接收参数，也可以将选择结果交回打开它的页面。
 
@@ -31,7 +31,7 @@ Demo 使用本地示例数据，无需账号、API Key 或网络权限。首次�
 
 ## 通过 Maven 接入
 
-Maven 坐标为 `com.usernav.page:page-framework:0.3.0`，产物为 Android AAR，包含 Manifest 和页面反射所需的 R8 保留规则。若已通过源码模块或本地文件接入，改用 Maven 依赖时先移除原依赖。
+Maven 坐标为 `com.zleilabs:page-framework:0.3.0`，产物为 Android AAR，包含 Manifest 和页面反射所需的 R8 保留规则。若已通过源码模块或本地文件接入，改用 Maven 依赖时先移除原依赖。
 
 ### 同一台电脑
 
@@ -41,11 +41,11 @@ Maven 坐标为 `com.usernav.page:page-framework:0.3.0`，产物为 Android AAR�
 ./gradlew :page-framework:publishToMavenLocal
 ```
 
-在接入工程的 `settings.gradle` 中，把 `mavenLocal { content { includeGroup('com.usernav.page') } }` 加入现有的 `dependencyResolutionManagement.repositories`。然后在应用模块的 `build.gradle` 中声明依赖：
+在接入工程的 `settings.gradle` 中，把 `mavenLocal { content { includeGroup('com.zleilabs') } }` 加入现有的 `dependencyResolutionManagement.repositories`。然后在应用模块的 `build.gradle` 中声明依赖：
 
 ```groovy
 dependencies {
-    implementation 'com.usernav.page:page-framework:0.3.0'
+    implementation 'com.zleilabs:page-framework:0.3.0'
 }
 ```
 
@@ -64,7 +64,7 @@ maven {
     name = 'GitHubPackages'
     url = uri('https://maven.pkg.github.com/buzhidaojiaoshenmehao/page-framework')
     credentials(PasswordCredentials)
-    content { includeGroup('com.usernav.page') }
+    content { includeGroup('com.zleilabs') }
 }
 ```
 
@@ -79,7 +79,7 @@ maven {
 3. 用 `navigator.startPage(HomePage.class, args)` 打开首页。可用 `register(action, type)` 注册字符串路由。
 4. 在对应的 Activity 回调中转发 `onStart`、`onResume`、`onPause`、`onStop`、`onDestroy`。系统返回先交给 `navigator.onBackPressed()`，返回 `false` 时由宿主处理。
 
-[完整 Activity 宿主](demo/src/main/java/com/usernav/pagedemo/MainActivity.java) · [三个页面场景的代码](demo/src/main/java/com/usernav/pagedemo/DemoPages.java)
+[完整 Activity 宿主](demo/src/main/java/com/zleilabs/pagedemo/MainActivity.java) · [三个页面场景的代码](demo/src/main/java/com/zleilabs/pagedemo/DemoPages.java)
 
 | 能力 | 入口 |
 | --- | --- |
