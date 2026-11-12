@@ -1,5 +1,11 @@
-plugins { id 'com.android.library' }
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
+group = 'com.usernav.page'
 version = '0.3.0'
+
 android {
     namespace 'com.usernav.page'
     compileSdk 34
@@ -10,6 +16,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    publishing {
+        singleVariant('release')
     }
     testOptions {
         unitTests.includeAndroidResources = true
@@ -31,4 +40,27 @@ android {
 dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.robolectric:robolectric:4.17'
+}
+
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = 'page-framework'
+            afterEvaluate { from(components.release) }
+            pom {
+                name = 'Page Framework'
+                description = 'Native Android View navigation framework.'
+                url = 'https://github.com/buzhidaojiaoshenmehao/page-framework'
+            }
+        }
+    }
+    repositories {
+        if (providers.gradleProperty('publishToGitHubPackages').isPresent()) {
+            maven {
+                name = 'GitHubPackages'
+                url = uri('https://maven.pkg.github.com/buzhidaojiaoshenmehao/page-framework')
+                credentials(PasswordCredentials)
+            }
+        }
+    }
 }

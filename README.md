@@ -29,15 +29,50 @@ Demo 使用本地示例数据，无需账号、API Key 或网络权限。首次�
 ./gradlew :demo:connectedDebugAndroidTest -Pandroid.experimental.androidTest.useUnifiedTestPlatform=false
 ```
 
-## 接入自己的 Activity
+## 通过 Maven 接入
 
-在根工程的 `settings.gradle` 加入 `include ':page-framework'`，再在应用模块添加依赖：
+Maven 坐标为 `com.usernav.page:page-framework:0.3.0`，产物为 Android AAR，包含 Manifest 和页面反射所需的 R8 保留规则。若已通过源码模块或本地文件接入，改用 Maven 依赖时先移除原依赖。
+
+### 同一台电脑
+
+在本仓库发布到本机 Maven 仓库：
+
+```sh
+./gradlew :page-framework:publishToMavenLocal
+```
+
+在接入工程的 `settings.gradle` 中，把 `mavenLocal { content { includeGroup('com.usernav.page') } }` 加入现有的 `dependencyResolutionManagement.repositories`。然后在应用模块的 `build.gradle` 中声明依赖：
 
 ```groovy
 dependencies {
-    implementation project(':page-framework')
+    implementation 'com.usernav.page:page-framework:0.3.0'
 }
 ```
+
+### 多台电脑共用 GitHub Packages
+
+在本仓库执行以下命令发布。账号和 Token 可以保存在当前用户的 `~/.gradle/gradle.properties` 中，属性名为 `GitHubPackagesUsername` 和 `GitHubPackagesPassword`。发布使用具备仓库访问权及 `write:packages` 的经典 PAT，接入方使用具备仓库访问权及 `read:packages` 的经典 PAT。不要把 Token 写进仓库。
+
+```sh
+./gradlew :page-framework:publish -PpublishToGitHubPackages
+```
+
+在接入工程的 `dependencyResolutionManagement.repositories` 中，使用下方仓库代替 `mavenLocal`。应用模块使用同样的 Maven 坐标。
+
+```groovy
+maven {
+    name = 'GitHubPackages'
+    url = uri('https://maven.pkg.github.com/buzhidaojiaoshenmehao/page-framework')
+    credentials(PasswordCredentials)
+    content { includeGroup('com.usernav.page') }
+}
+```
+
+[GitHub Packages 的 Gradle 配置与认证说明](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)
+
+## 接入自己的 Activity
+
+使用上面的 Maven 依赖，或直接引入源码模块。在同一工程中接入源码时，在 `settings.gradle` 加入 `include ':page-framework'`，并在应用模块添加 `implementation project(':page-framework')`。
 
 1. 为页面栈准备一个专用 `FrameLayout`，用 `new PageNavigator(this, container)` 绑定到 Activity。
 2. 新建继承 `ViewPage` 的公开页面类，保留公开的无参构造函数。在 `createView(inflater, container)` 返回未挂载的 View。XML 布局使用 `inflate(layoutId, container, false)`。
