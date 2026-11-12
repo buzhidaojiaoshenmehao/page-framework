@@ -1,0 +1,24 @@
+plugins { id 'com.android.application' }
+android {
+    namespace 'com.usernav.pagedemo'
+    compileSdk 34
+    defaultConfig {
+        applicationId 'com.usernav.pagedemo'
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName '0.1'
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+dependencies {
+    implementation project(':page-framework')
+    androidTestCompileOnly files(
+        "${android.sdkDirectory}/platforms/android-${android.compileSdk}/optional/android.test.base.jar",
+        "${android.sdkDirectory}/platforms/android-${android.compileSdk}/optional/android.test.runner.jar")
+    androidTestImplementation 'androidx.test:runner:1.4.0'
+}
